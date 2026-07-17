@@ -10,12 +10,11 @@ export const metadata: Metadata = {
   description: "Connecticut's premier dog walking and pet sitting service.",
 };
 
-// Explicit viewport configuration to prevent iOS input zoom and layout shifts
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  viewportFit: "cover", // Allows content to flow into notch areas safely
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -29,7 +28,8 @@ export default function RootLayout({
         <AudioProvider>
           <ToastProvider>
             <Navbar />
-            <main className="relative min-h-[100dvh] w-full overflow-hidden pt-20">
+            {/* Moved overflow-x-hidden here to prevent iOS body scroll shudder */}
+            <main className="relative min-h-screen w-full overflow-x-hidden pt-20">
               {children}
             </main>
             <Footer />

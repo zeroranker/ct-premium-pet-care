@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useRef, useCallback, ReactNode, useEffect } from "react";
+import React, { createContext, useContext, useRef, useCallback, ReactNode } from "react";
 
 type AudioType = "pop" | "whoosh" | "bark";
 
@@ -22,46 +22,29 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
     const ref = type === "pop" ? popRef : type === "whoosh" ? whooshRef : barkRef;
     if (ref.current) {
+      // Resetting currentTime and playing synchronously inside the event handler
+      // is the most reliable way to trigger audio on iOS.
       ref.current.currentTime = 0;
       ref.current.volume = type === "pop" ? 0.3 : 0.6;
-      ref.current.play().catch((e) => console.warn(`Audio playback failed (${type}):`, e));
+      const playPromise = ref.current.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch((e) => {
+          // Auto-play was prevented. This is expected on the very first load
+          // before the user has interacted. Once they tap a button, it will work.
+          console.warn(`Audio playback failed (${type}):`, e);
+        });
+      }
     }
-  }, []);
-
-  // Mobile Audio Unlock: Browsers block audio until a user interacts.
-  // This listens for the first touch/click and unlocks all audio elements.
-  useEffect(() => {
-    const unlock = () => {
-      [popRef, whooshRef, barkRef].forEach(ref => {
-        if (ref.current) {
-          ref.current.muted = true;
-          ref.current.play().then(() => {
-            ref.current!.pause();
-            ref.current!.currentTime = 0;
-            ref.current!.muted = false;
-          }).catch(() => {});
-        }
-      });
-      // Remove listeners after first unlock attempt
-      document.removeEventListener("touchstart", unlock);
-      document.removeEventListener("click", unlock);
-    };
-
-    document.addEventListener("touchstart", unlock);
-    document.addEventListener("click", unlock);
-
-    return () => {
-      document.removeEventListener("touchstart", unlock);
-      document.removeEventListener("click", unlock);
-    };
   }, []);
 
   return (
     <AudioContext.Provider value={{ play }}>
       {children}
-      <audio ref={popRef} src="/sfx-pop.mp3" preload="auto" />
-      <audio ref={whooshRef} src="/sfx-whoosh.mp3" preload="auto" />
-      <audio ref={barkRef} src="/sfx-bark.mp3" preload="auto" />
+      {/* Added playsInline to satisfy iOS audio requirements */}
+      <audio ref={popRef} src="/sfx-pop.mp3" preload="auto" playsInline />
+      <audio ref={whooshRef} src="/sfx-whoosh.mp3" preload="auto" playsInline />
+      <audio ref={barkRef} src="/sfx-bark.mp3" preload="auto" playsInline />
     </AudioContext.Provider>
   );
 }

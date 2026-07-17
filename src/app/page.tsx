@@ -20,10 +20,9 @@ export default function Home() {
     <div className="relative w-full">
       <div className="grain-overlay" />
 
-      {/* SECTION 1: HERO - Pure CSS stability to prevent mobile address bar glitching */}
-      <section className="relative flex min-h-[100dvh] flex-col justify-end overflow-hidden px-6 md:px-12 pb-16 pt-32">
+      {/* SECTION 1: HERO - Reverted to min-h-screen to prevent dvh height jumps */}
+      <section className="relative flex min-h-screen flex-col justify-end overflow-hidden px-6 md:px-12 pb-16 pt-32">
         
-        {/* Removed motion.div and JS parallax. Pure CSS scale prevents mobile jank. */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img src="/hero-bg.png" alt="Hero" className="h-full w-full scale-110 object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/85 to-transparent" />
@@ -72,7 +71,6 @@ export default function Home() {
             </motion.p>
           </motion.div>
 
-          {/* Mobile-Optimized Layout: Stacks vertically, left-aligned */}
           <motion.div 
             className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between border-t border-white/10 pt-8"
             initial={{ opacity: 0, y: 20 }}
@@ -114,7 +112,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 2: SERVICES OVERVIEW */}
-      <section id="services-overview" className="relative z-10 flex min-h-[100dvh] flex-col items-center justify-center px-6 md:px-12 py-32">
+      <section id="services-overview" className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 md:px-12 py-32">
         <div className="mx-auto w-full max-w-7xl">
           <motion.div 
             initial={{ opacity: 0, y: 24 }}
