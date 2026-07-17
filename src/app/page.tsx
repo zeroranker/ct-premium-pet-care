@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useAudio } from "@/lib/audio-context";
 import Link from "next/link";
@@ -11,14 +10,6 @@ import MagneticButton from "@/components/ui/MagneticButton";
 
 export default function Home() {
   const { play } = useAudio();
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  // Subtle background parallax only
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  });
-  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
 
   const scrollToNext = () => {
     play("whoosh");
@@ -29,18 +20,16 @@ export default function Home() {
     <div className="relative w-full">
       <div className="grain-overlay" />
 
-      {/* SECTION 1: HERO - Dynamic Height to prevent iOS jank */}
-      <section ref={heroRef} className="relative flex min-h-[100dvh] flex-col justify-end overflow-hidden px-6 md:px-12 pb-16 pt-32">
+      {/* SECTION 1: HERO - Pure CSS stability to prevent mobile address bar glitching */}
+      <section className="relative flex min-h-[100dvh] flex-col justify-end overflow-hidden px-6 md:px-12 pb-16 pt-32">
         
-        <motion.div 
-          className="absolute inset-0 z-0"
-          style={{ y: imageY, scale: 1.1 }} 
-        >
-          <img src="/hero-bg.png" alt="Hero" className="h-full w-full object-cover" />
+        {/* Removed motion.div and JS parallax. Pure CSS scale prevents mobile jank. */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <img src="/hero-bg.png" alt="Hero" className="h-full w-full scale-110 object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/85 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/90 via-transparent to-[#0a0a0a]/90" />
           <div className="absolute inset-0 shadow-[inset_0_0_200px_50px_rgba(0,0,0,0.8)]" />
-        </motion.div>
+        </div>
 
         <div className="relative z-10 mx-auto w-full max-w-7xl">
           <motion.div 
@@ -130,7 +119,7 @@ export default function Home() {
           <motion.div 
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mb-16 md:mb-24 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"
           >
@@ -151,7 +140,7 @@ export default function Home() {
                   key={service.id}
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
+                  viewport={{ once: true, amount: 0.1 }}
                   transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.1 }}
                   className="group flex flex-col justify-between p-8 md:p-10 bg-zinc-900/80 border border-white/10 rounded-2xl transition-all duration-300 hover:border-teal-glow/40 hover:bg-zinc-900 shadow-xl shadow-black/50"
                 >

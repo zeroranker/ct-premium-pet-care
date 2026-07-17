@@ -11,7 +11,7 @@ export default function PoliciesSection() {
         <motion.div 
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="mb-24 flex flex-col md:flex-row md:items-end md:justify-between gap-8"
         >
@@ -29,7 +29,7 @@ export default function PoliciesSection() {
           <motion.div 
             initial={{ opacity: 0, y: 24 }} 
             whileInView={{ opacity: 1, y: 0 }} 
-            viewport={{ once: true, margin: "-50px" }} 
+            viewport={{ once: true, amount: 0.1 }} 
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="bg-zinc-900/80 border border-white/10 rounded-2xl p-10 shadow-xl shadow-black/50 flex flex-col min-h-[300px]"
           >
@@ -53,7 +53,7 @@ export default function PoliciesSection() {
           <motion.div 
             initial={{ opacity: 0, y: 24 }} 
             whileInView={{ opacity: 1, y: 0 }} 
-            viewport={{ once: true, margin: "-50px" }} 
+            viewport={{ once: true, amount: 0.1 }} 
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
             className="bg-zinc-900/80 border border-white/10 rounded-2xl p-10 shadow-xl shadow-black/50 flex flex-col min-h-[300px]"
           >
