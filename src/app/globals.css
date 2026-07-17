@@ -23,11 +23,12 @@
 html {
   -webkit-text-size-adjust: 100%; /* Prevents font scaling on landscape mobile */
   scroll-behavior: smooth;
+  overflow-x: clip; /* CRITICAL FIX: Prevents iOS Safari scroll shudder */
 }
 
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow-x: clip; /* CRITICAL FIX: Prevents iOS Safari scroll shudder */
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: 'Outfit', sans-serif;
@@ -119,7 +120,7 @@ h1, h2, h3 {
 .energy-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px; /* Large enough for touch */
+  width: 20px;
   height: 20px;
   border-radius: 50%;
   background: var(--color-text);
