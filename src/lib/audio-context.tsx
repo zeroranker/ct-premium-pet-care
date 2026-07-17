@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useRef, useCallback, ReactNode } from "react";
+import React, { createContext, useContext, useRef, useCallback, ReactNode, useEffect } from "react";
 
 type AudioType = "pop" | "whoosh" | "bark";
 
@@ -16,7 +16,6 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const barkRef = useRef<HTMLAudioElement | null>(null);
 
   const play = useCallback((type: AudioType) => {
-    // Respect reduced motion preferences (often aligns with users wanting less auditory stimulus)
     if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return;
     }
@@ -24,9 +23,37 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     const ref = type === "pop" ? popRef : type === "whoosh" ? whooshRef : barkRef;
     if (ref.current) {
       ref.current.currentTime = 0;
-      ref.current.volume = type === "pop" ? 0.2 : 0.5;
+      ref.current.volume = type === "pop" ? 0.3 : 0.6;
       ref.current.play().catch((e) => console.warn(`Audio playback failed (${type}):`, e));
     }
+  }, []);
+
+  // Mobile Audio Unlock: Browsers block audio until a user interacts.
+  // This listens for the first touch/click and unlocks all audio elements.
+  useEffect(() => {
+    const unlock = () => {
+      [popRef, whooshRef, barkRef].forEach(ref => {
+        if (ref.current) {
+          ref.current.muted = true;
+          ref.current.play().then(() => {
+            ref.current!.pause();
+            ref.current!.currentTime = 0;
+            ref.current!.muted = false;
+          }).catch(() => {});
+        }
+      });
+      // Remove listeners after first unlock attempt
+      document.removeEventListener("touchstart", unlock);
+      document.removeEventListener("click", unlock);
+    };
+
+    document.addEventListener("touchstart", unlock);
+    document.addEventListener("click", unlock);
+
+    return () => {
+      document.removeEventListener("touchstart", unlock);
+      document.removeEventListener("click", unlock);
+    };
   }, []);
 
   return (
