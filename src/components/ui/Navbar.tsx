@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAudio } from "@/lib/audio-context";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Volume2, VolumeX } from "lucide-react";
 
 const NAV_LINKS = [
   { label: "Home", target: "/" },
@@ -17,10 +17,9 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { play } = useAudio();
+  const { play, isMuted, toggleMute } = useAudio();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Lock body scroll when mobile menu is open to prevent background scrolling
   useEffect(() => {
     if (mobileOpen) {
       document.body.classList.add("body-scroll-lock");
@@ -67,16 +66,41 @@ export default function Navbar() {
                 </Link>
               );
             })}
+            
+            {/* Desktop Mute Toggle */}
+            <button 
+              onClick={() => {
+                toggleMute();
+                if (!isMuted) play("pop"); // Play pop if unmuting
+              }}
+              onMouseEnter={() => play("pop")}
+              className="ml-2 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:text-teal-glow transition-colors"
+              aria-label={isMuted ? "Unmute audio" : "Mute audio"}
+            >
+              {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+            </button>
           </div>
 
-          {/* Mobile Hamburger */}
-          <button 
-            className="md:hidden flex h-10 w-10 items-center justify-center rounded-full text-white"
-            onClick={() => { setMobileOpen(true); play("pop"); }}
-            aria-label="Open menu"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
+          {/* Mobile Hamburger & Mute */}
+          <div className="flex items-center gap-2 md:hidden">
+            <button 
+              onClick={() => {
+                toggleMute();
+                if (!isMuted) play("pop");
+              }}
+              className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:text-teal-glow transition-colors"
+              aria-label={isMuted ? "Unmute audio" : "Mute audio"}
+            >
+              {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+            </button>
+            <button 
+              className="flex h-10 w-10 items-center justify-center rounded-full text-white"
+              onClick={() => { setMobileOpen(true); play("pop"); }}
+              aria-label="Open menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+          </div>
         </div>
       </motion.nav>
 
