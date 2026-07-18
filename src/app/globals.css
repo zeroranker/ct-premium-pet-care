@@ -37,6 +37,12 @@ body {
   overscroll-behavior-y: none;
 }
 
+/* Obsessive Detail: Premium Text Selection */
+::selection {
+  background: rgba(45, 212, 191, 0.3);
+  color: #ffffff;
+}
+
 /* Minimalist Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
@@ -49,7 +55,7 @@ body {
   border-radius: 0;
 }
 
-/* Premium Accessible Focus Ring (Keyboard Navigation) */
+/* Premium Accessible Focus Ring */
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 4px;
@@ -57,7 +63,6 @@ body {
   transition: outline-offset 0.1s ease;
 }
 
-/* Remove focus ring for mouse users explicitly */
 :focus:not(:focus-visible) {
   outline: none;
 }
@@ -190,6 +195,16 @@ h1, h2, h3 {
   border-bottom-color: var(--color-accent);
 }
 
+/* Obsessive Detail: Fix iOS/Chrome Autofill forcing white backgrounds */
+.input-field:-webkit-autofill,
+.input-field:-webkit-autofill:hover,
+.input-field:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-text);
+  -webkit-box-shadow: 0 0 0px 1000px var(--color-bg) inset;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: var(--color-text);
+}
+
 .input-label {
   position: absolute;
   left: 0;
@@ -227,4 +242,22 @@ textarea.input-field {
   overflow: hidden !important;
   position: fixed !important;
   width: 100% !important;
+}
+
+/* Obsessive Detail: Footer Animated Underline */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--color-accent);
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-underline:hover::after {
+  width: 100%;
 }

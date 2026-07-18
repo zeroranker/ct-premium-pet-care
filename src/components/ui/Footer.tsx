@@ -19,7 +19,7 @@ const FOOTER_LINKS = [
       { label: "Coverage Area", target: "/coverage" },
       { label: "Book Now", target: "/book" },
       { label: "Policies", target: "/policies" },
-      { label: "Privacy Policy", target: "/privacy" }, // Added Legal Link
+      { label: "Privacy Policy", target: "/privacy" },
     ],
   },
 ];
@@ -52,7 +52,7 @@ export default function Footer() {
                       <Link 
                         href={link.target} 
                         onMouseEnter={() => play("pop")}
-                        className="text-sm text-slate-400 font-light hover:text-teal-glow transition-colors"
+                        className="link-underline text-sm text-slate-400 font-light hover:text-teal-glow transition-colors w-fit"
                       >
                         {link.label}
                       </Link>
