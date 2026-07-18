@@ -25,7 +25,7 @@ export default function CoveragePage() {
             <motion.p 
               initial={{ opacity: 0, y: 10 }} 
               whileInView={{ opacity: 1, y: 0 }} 
-              viewport={{ once: true }} 
+              viewport={{ once: true, margin: "-50px" }} 
               transition={{ duration: 0.5 }}
               className="text-eyebrow mb-4"
             >
@@ -36,7 +36,7 @@ export default function CoveragePage() {
           <motion.p 
             initial={{ opacity: 0, y: 20 }} 
             whileInView={{ opacity: 1, y: 0 }} 
-            viewport={{ once: true }} 
+            viewport={{ once: true, margin: "-50px" }} 
             transition={{ duration: 0.5, delay: 0.2 }}
             className="max-w-md text-slate-400 font-light leading-relaxed"
           >

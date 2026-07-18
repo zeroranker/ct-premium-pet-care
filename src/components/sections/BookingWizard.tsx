@@ -148,7 +148,7 @@ export default function BookingWizard({ preselectedService, preselectedEnergy }:
           <motion.p 
             initial={{ opacity: 0, y: 10 }} 
             whileInView={{ opacity: 1, y: 0 }} 
-            viewport={{ once: true }} 
+            viewport={{ once: true, margin: "-50px" }} 
             transition={{ duration: 0.5 }}
             className="text-eyebrow mb-4"
           >

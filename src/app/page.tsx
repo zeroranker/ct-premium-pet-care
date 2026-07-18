@@ -8,6 +8,7 @@ import { SERVICES } from "@/lib/constants";
 import PoliciesSection from "@/components/sections/PoliciesSection";
 import MagneticButton from "@/components/ui/MagneticButton";
 import SpotlightCard from "@/components/ui/SpotlightCard";
+import MaskedHeading from "@/components/ui/MaskedHeading";
 
 export default function Home() {
   const { play } = useAudio();
@@ -118,13 +119,13 @@ export default function Home() {
           <motion.div 
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
+            viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mb-16 md:mb-24 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"
           >
             <div>
               <p className="text-eyebrow mb-4">What We Do</p>
-              <h2 className="text-display text-4xl text-white md:text-6xl">Tailored Service Tiers</h2>
+              <MaskedHeading className="text-display text-4xl text-white md:text-6xl">Tailored Service Tiers</MaskedHeading>
             </div>
             <p className="max-w-md text-slate-400 font-light leading-relaxed">
               Transparent pricing designed to match your dog&apos;s exact energy level. No hidden fees, no surprises.
@@ -139,7 +140,7 @@ export default function Home() {
                   key={service.id}
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.1 }}
+                  viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.1 }}
                 >
                   <SpotlightCard className="h-full rounded-2xl bg-zinc-900/80 border border-white/10 transition-all duration-300 hover:border-teal-glow/40 hover:bg-zinc-900 shadow-xl shadow-black/50 p-8 md:p-10">
