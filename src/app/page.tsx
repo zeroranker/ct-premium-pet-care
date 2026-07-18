@@ -20,11 +20,12 @@ export default function Home() {
     <div className="relative w-full">
       <div className="grain-overlay" />
 
-      {/* SECTION 1: HERO - Reverted to min-h-screen to prevent dvh height jumps */}
+      {/* SECTION 1: HERO */}
       <section className="relative flex min-h-screen flex-col justify-end overflow-hidden px-6 md:px-12 pb-16 pt-32">
         
         <div className="absolute inset-0 z-0 overflow-hidden">
-          <img src="/hero-bg.png" alt="Hero" className="h-full w-full scale-110 object-cover" />
+          {/* Fixed camelCase prop for React 18 */}
+          <img src="/hero-bg.png" alt="Hero" fetchPriority="high" className="h-full w-full scale-110 object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/85 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/90 via-transparent to-[#0a0a0a]/90" />
           <div className="absolute inset-0 shadow-[inset_0_0_200px_50px_rgba(0,0,0,0.8)]" />
