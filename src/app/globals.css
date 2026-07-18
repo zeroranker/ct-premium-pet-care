@@ -23,12 +23,13 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  /* Removed overflow-x from here to fix iOS scroll shudder */
+  /* CRITICAL FIX: Reserves space for the scrollbar to prevent layout shifting on route change */
+  scrollbar-gutter: stable; 
 }
 
 body {
-  max-width: 100vw;
-  /* Removed overflow-x from here to fix iOS scroll shudder */
+  /* Removed max-width: 100vw to prevent horizontal scroll conflicts */
+  overflow-x: clip; 
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: 'Outfit', sans-serif;
