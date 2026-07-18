@@ -19,6 +19,7 @@ const FOOTER_LINKS = [
       { label: "Coverage Area", target: "/coverage" },
       { label: "Book Now", target: "/book" },
       { label: "Policies", target: "/policies" },
+      { label: "Privacy Policy", target: "/privacy" }, // Added Legal Link
     ],
   },
 ];
