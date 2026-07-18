@@ -20,18 +20,19 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    // Haptic Feedback for Mobile (10ms vibration)
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      navigator.vibrate(type === "bark" ? 30 : 10);
+    }
+
     const ref = type === "pop" ? popRef : type === "whoosh" ? whooshRef : barkRef;
     if (ref.current) {
-      // Resetting currentTime and playing synchronously inside the event handler
-      // is the most reliable way to trigger audio on iOS.
       ref.current.currentTime = 0;
       ref.current.volume = type === "pop" ? 0.3 : 0.6;
       const playPromise = ref.current.play();
       
       if (playPromise !== undefined) {
         playPromise.catch((e) => {
-          // Auto-play was prevented. This is expected on the very first load
-          // before the user has interacted. Once they tap a button, it will work.
           console.warn(`Audio playback failed (${type}):`, e);
         });
       }
@@ -41,7 +42,6 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   return (
     <AudioContext.Provider value={{ play }}>
       {children}
-      {/* Added playsInline to satisfy iOS audio requirements */}
       <audio ref={popRef} src="/sfx-pop.mp3" preload="auto" playsInline />
       <audio ref={whooshRef} src="/sfx-whoosh.mp3" preload="auto" playsInline />
       <audio ref={barkRef} src="/sfx-bark.mp3" preload="auto" playsInline />

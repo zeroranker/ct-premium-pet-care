@@ -56,12 +56,38 @@ export default function BookingWizard({ preselectedService, preselectedEnergy }:
     }
   }, []);
 
+  // Preselected service from Services page
   useEffect(() => {
     if (preselectedService) {
       setData((prev) => ({ ...prev, serviceId: preselectedService, dogEnergy: preselectedEnergy }));
       setStep(2);
     }
   }, [preselectedService, preselectedEnergy]);
+
+  // State Persistence: Load from localStorage on mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const savedData = localStorage.getItem("ct-premium-booking");
+    if (savedData) {
+      try {
+        const parsed = JSON.parse(savedData);
+        setData(parsed);
+        // Determine step based on filled data
+        if (parsed.clientName) setStep(4);
+        else if (parsed.dogName) setStep(4); // Stay on 4 if dog details just finished
+        else if (parsed.date) setStep(3);
+        else if (parsed.serviceId) setStep(2);
+      } catch (e) {
+        console.error("Failed to parse saved booking data", e);
+      }
+    }
+  }, []);
+
+  // State Persistence: Save to localStorage whenever data changes
+  useEffect(() => {
+    if (typeof window === "undefined" || isSuccess) return;
+    localStorage.setItem("ct-premium-booking", JSON.stringify(data));
+  }, [data, isSuccess]);
 
   const updateData = (newData: Partial<BookingData>) => {
     setData((prev) => ({ ...prev, ...newData }));
@@ -104,6 +130,10 @@ export default function BookingWizard({ preselectedService, preselectedEnergy }:
       play("bark");
       showToast("Request Received!", "success");
       setIsSuccess(true);
+      // Clear state on success
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("ct-premium-booking");
+      }
     } else {
       showToast(result.message, "error");
       setIsSubmitting(false);
@@ -118,7 +148,6 @@ export default function BookingWizard({ preselectedService, preselectedEnergy }:
           <h2 className="text-display text-4xl text-white md:text-6xl">Book Your Adventure</h2>
         </div>
 
-        {/* Mobile padding reduced to p-6, desktop p-12 */}
         <div className="relative overflow-hidden rounded-2xl bg-zinc-900/80 border border-white/10 shadow-xl shadow-black/50 p-6 md:p-12">
           {!isSubmitting && !isSuccess && (
             <div className="mb-8 md:mb-10 flex flex-col-reverse md:flex-row md:items-start md:justify-between gap-6 border-b border-white/10 pb-8">
@@ -195,7 +224,6 @@ export default function BookingWizard({ preselectedService, preselectedEnergy }:
             </div>
           )}
 
-          {/* Mobile-Optimized Buttons: Stack vertically, full width in thumb zone */}
           {!isSubmitting && !isSuccess && (
             <div className="mt-12 flex flex-col-reverse gap-4 border-t border-white/10 pt-8 md:flex-row md:items-center md:justify-between">
               <button
