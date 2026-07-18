@@ -7,6 +7,7 @@ import Link from "next/link";
 import { SERVICES } from "@/lib/constants";
 import PoliciesSection from "@/components/sections/PoliciesSection";
 import MagneticButton from "@/components/ui/MagneticButton";
+import SpotlightCard from "@/components/ui/SpotlightCard";
 
 export default function Home() {
   const { play } = useAudio();
@@ -23,7 +24,6 @@ export default function Home() {
       {/* SECTION 1: HERO */}
       <section className="relative flex min-h-screen flex-col justify-end overflow-hidden px-6 md:px-12 pb-16 pt-32">
         
-        {/* Added bg-zinc-900 to prevent white flash before image loads */}
         <div className="absolute inset-0 z-0 overflow-hidden bg-zinc-900">
           <img src="/hero-bg.png" alt="Hero" fetchPriority="high" className="h-full w-full scale-110 object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/85 to-transparent" />
@@ -141,28 +141,31 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.1 }}
                   transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.1 }}
-                  className="group flex flex-col justify-between p-8 md:p-10 bg-zinc-900/80 border border-white/10 rounded-2xl transition-all duration-300 hover:border-teal-glow/40 hover:bg-zinc-900 shadow-xl shadow-black/50"
                 >
-                  <div>
-                    {Icon && <Icon className="h-6 w-6 text-slate-500 group-hover:text-teal-glow transition-colors mb-8 md:mb-12" strokeWidth={1} />}
-                    <h3 className="text-2xl font-medium text-white">{service.name}</h3>
-                    <p className="mt-3 text-sm text-slate-500 font-light leading-relaxed">{service.description}</p>
-                  </div>
-                  <div className="mt-8 md:mt-12 flex items-end justify-between">
-                    <div>
-                      <p className="text-xs uppercase tracking-widest text-slate-600">{service.duration}</p>
-                      <p className="mt-2 text-3xl font-light text-white">
-                        {service.price === "Custom" ? "Custom" : `$${service.price}`}
-                      </p>
+                  <SpotlightCard className="h-full rounded-2xl bg-zinc-900/80 border border-white/10 transition-all duration-300 hover:border-teal-glow/40 hover:bg-zinc-900 shadow-xl shadow-black/50 p-8 md:p-10">
+                    <div className="flex flex-col justify-between h-full">
+                      <div>
+                        {Icon && <Icon className="h-6 w-6 text-slate-500 group-hover:text-teal-glow transition-colors mb-8 md:mb-12" strokeWidth={1} />}
+                        <h3 className="text-2xl font-medium text-white">{service.name}</h3>
+                        <p className="mt-3 text-sm text-slate-500 font-light leading-relaxed">{service.description}</p>
+                      </div>
+                      <div className="mt-8 md:mt-12 flex items-end justify-between">
+                        <div>
+                          <p className="text-xs uppercase tracking-widest text-slate-600">{service.duration}</p>
+                          <p className="mt-2 text-3xl font-light text-white">
+                            {service.price === "Custom" ? "Custom" : `$${service.price}`}
+                          </p>
+                        </div>
+                        <Link 
+                          href="/services" 
+                          onMouseEnter={() => play("pop")}
+                          className="text-slate-600 group-hover:text-white transition-colors"
+                        >
+                          <ArrowRight className="h-5 w-5" />
+                        </Link>
+                      </div>
                     </div>
-                    <Link 
-                      href="/services" 
-                      onMouseEnter={() => play("pop")}
-                      className="text-slate-600 group-hover:text-white transition-colors"
-                    >
-                      <ArrowRight className="h-5 w-5" />
-                    </Link>
-                  </div>
+                  </SpotlightCard>
                 </motion.div>
               );
             })}

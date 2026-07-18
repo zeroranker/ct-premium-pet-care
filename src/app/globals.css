@@ -35,6 +35,8 @@ body {
   -webkit-font-smoothing: antialiased;
   touch-action: manipulation;
   overscroll-behavior-y: none;
+  /* Obsessive Detail: Sharper font rendering */
+  text-rendering: optimizeLegibility;
 }
 
 /* Obsessive Detail: Premium Text Selection */
