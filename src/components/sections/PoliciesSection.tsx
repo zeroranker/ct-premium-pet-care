@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { CreditCard, Clock, ShieldAlert } from "lucide-react";
 import { PAYMENT_METHODS } from "@/lib/constants";
+import MaskedHeading from "@/components/ui/MaskedHeading";
 
 export default function PoliciesSection() {
   return (
@@ -16,12 +17,26 @@ export default function PoliciesSection() {
           className="mb-24 flex flex-col md:flex-row md:items-end md:justify-between gap-8"
         >
           <div>
-            <p className="text-eyebrow mb-4">The Fine Print</p>
-            <h2 className="text-display text-4xl text-white md:text-6xl">Clear & Fair Policies</h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 10 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              viewport={{ once: true }} 
+              transition={{ duration: 0.5 }}
+              className="text-eyebrow mb-4"
+            >
+              The Fine Print
+            </motion.p>
+            <MaskedHeading className="text-display text-4xl text-white md:text-6xl">Clear & Fair Policies</MaskedHeading>
           </div>
-          <p className="max-w-md text-slate-400 font-light leading-relaxed">
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }} 
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="max-w-md text-slate-400 font-light leading-relaxed"
+          >
             Transparency you can trust. We keep our rules simple so you can focus on your pet.
-          </p>
+          </motion.p>
         </motion.div>
 
         <div className="grid gap-6 md:grid-cols-2">

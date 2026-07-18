@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { CT_COUNTIES } from "@/lib/constants";
 import { useAudio } from "@/lib/audio-context";
 import { MapPin } from "lucide-react";
+import MaskedHeading from "@/components/ui/MaskedHeading";
 
 export default function CoveragePage() {
   const [hoveredCounty, setHoveredCounty] = useState<string | null>(null);
@@ -21,12 +22,26 @@ export default function CoveragePage() {
       <div className="mx-auto w-full max-w-7xl">
         <div className="mb-24 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
           <div>
-            <p className="text-eyebrow mb-4">Where We Go</p>
-            <h2 className="text-display text-4xl text-white md:text-6xl">Statewide Coverage</h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 10 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              viewport={{ once: true }} 
+              transition={{ duration: 0.5 }}
+              className="text-eyebrow mb-4"
+            >
+              Where We Go
+            </motion.p>
+            <MaskedHeading className="text-display text-4xl text-white md:text-6xl">Statewide Coverage</MaskedHeading>
           </div>
-          <p className="max-w-md text-slate-400 font-light leading-relaxed">
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }} 
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="max-w-md text-slate-400 font-light leading-relaxed"
+          >
             We proudly serve all 8 counties across Connecticut. Hover over the map or the list to see our exact coverage zones.
-          </p>
+          </motion.p>
         </div>
 
         <div className="grid gap-12 md:grid-cols-2 md:items-center">

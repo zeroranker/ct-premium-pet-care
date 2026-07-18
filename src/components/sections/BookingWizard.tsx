@@ -14,6 +14,7 @@ import Step1Service from "@/components/wizard/steps/Step1Service";
 import Step2Schedule from "@/components/wizard/steps/Step2Schedule";
 import Step3DogDetails from "@/components/wizard/steps/Step3DogDetails";
 import Step4ClientDetails from "@/components/wizard/steps/Step4ClientDetails";
+import MaskedHeading from "@/components/ui/MaskedHeading";
 
 const laborIllusionSteps = [
   "Matching you with walker...",
@@ -144,8 +145,16 @@ export default function BookingWizard({ preselectedService, preselectedEnergy }:
     <section id="book" className="relative z-10 px-6 md:px-12 py-32 pt-40">
       <div className="mx-auto w-full max-w-4xl">
         <div className="mb-16 text-center">
-          <p className="text-eyebrow mb-4">Secure Your Spot</p>
-          <h2 className="text-display text-4xl text-white md:text-6xl">Book Your Adventure</h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 10 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }} 
+            transition={{ duration: 0.5 }}
+            className="text-eyebrow mb-4"
+          >
+            Secure Your Spot
+          </motion.p>
+          <MaskedHeading className="text-display text-4xl text-white md:text-6xl justify-center">Book Your Adventure</MaskedHeading>
         </div>
 
         <div className="relative overflow-hidden rounded-2xl bg-zinc-900/80 border border-white/10 shadow-xl shadow-black/50 p-6 md:p-12">

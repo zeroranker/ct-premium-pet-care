@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import MaskedHeading from "@/components/ui/MaskedHeading";
 
 export default function PrivacyPage() {
   return (
@@ -13,8 +14,16 @@ export default function PrivacyPage() {
     >
       <div className="mx-auto w-full max-w-3xl">
         <div className="mb-16">
-          <p className="text-eyebrow mb-4">Legal</p>
-          <h2 className="text-display text-4xl text-white md:text-6xl">Privacy Policy</h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 10 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }} 
+            transition={{ duration: 0.5 }}
+            className="text-eyebrow mb-4"
+          >
+            Legal
+          </motion.p>
+          <MaskedHeading className="text-display text-4xl text-white md:text-6xl">Privacy Policy</MaskedHeading>
         </div>
 
         <div className="space-y-10 text-slate-400 font-light leading-relaxed">
