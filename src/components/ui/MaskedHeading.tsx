@@ -10,11 +10,11 @@ interface MaskedHeadingProps {
 export default function MaskedHeading({ children, className }: MaskedHeadingProps) {
   const words = children.split(" ");
   return (
-    <h2 className={`${className} flex flex-wrap`}>
+    <h2 className={className}>
       {words.map((word, i) => (
-        <span key={i} className="text-mask mr-[0.25em]">
+        <span key={i} className="text-mask mr-[0.25em] inline-block align-bottom">
           <motion.span 
-            className="flex"
+            className="inline-block"
             initial={{ y: "100%" }}
             whileInView={{ y: "0%" }}
             viewport={{ once: true, amount: 0.5 }}

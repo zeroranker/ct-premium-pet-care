@@ -21,16 +21,19 @@ export default function SpotlightCard({ children, className = "" }: SpotlightCar
     <div 
       ref={ref}
       onMouseMove={handleMouseMove}
-      className={`group relative overflow-hidden ${className}`}
+      className={`group relative ${className}`}
     >
-      {/* Mouse Tracking Spotlight */}
-      <div
-        className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{
-          background: `radial-gradient(300px circle at ${mousePos.x}px ${mousePos.y}px, rgba(45, 212, 191, 0.08), transparent 70%)`
-        }}
-      />
-      {/* Content */}
+      {/* Mouse Tracking Spotlight (Background Layer - Clipped to rounded corners) */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `radial-gradient(300px circle at ${mousePos.x}px ${mousePos.y}px, rgba(45, 212, 191, 0.08), transparent 70%)`
+          }}
+        />
+      </div>
+      
+      {/* Content (Foreground Layer - No longer clipped, badges can overflow) */}
       <div className="relative z-10 h-full">
         {children}
       </div>
