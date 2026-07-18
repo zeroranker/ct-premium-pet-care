@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useRef, useCallback, ReactNode } from "react";
+import React, { createContext, useContext, useRef, useCallback, ReactNode, useEffect } from "react";
 
 type AudioType = "pop" | "whoosh" | "bark";
 
@@ -20,7 +20,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    // Haptic Feedback for Mobile (10ms vibration)
+    // Haptic Feedback for Mobile
     if (typeof navigator !== "undefined" && "vibrate" in navigator) {
       navigator.vibrate(type === "bark" ? 30 : 10);
     }
@@ -37,6 +37,33 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         });
       }
     }
+  }, []);
+
+  // DEFINTIVE iOS UNLOCK: Silently play and pause all tracks on the first tap/click.
+  // This registers the audio elements as "user-initiated" for the entire session.
+  useEffect(() => {
+    const unlock = () => {
+      const refs = [popRef, whooshRef, barkRef];
+      refs.forEach(ref => {
+        if (ref.current) {
+          ref.current.muted = true;
+          ref.current.play().then(() => {
+            ref.current!.pause();
+            ref.current!.currentTime = 0;
+            ref.current!.muted = false;
+          }).catch(() => {});
+        }
+      });
+    };
+
+    // Use both touchstart and click to catch all initial interactions
+    document.addEventListener("touchstart", unlock, { once: true });
+    document.addEventListener("click", unlock, { once: true });
+
+    return () => {
+      document.removeEventListener("touchstart", unlock);
+      document.removeEventListener("click", unlock);
+    };
   }, []);
 
   return (
